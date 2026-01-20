@@ -20,6 +20,7 @@ You may **only** submit material that you have the right to make public under th
 **NO PERSONALLY IDENTIFIABLE INFORMATION (PII) MAY BE INCLUDED.**
 
 This includes but is not limited to:
+
 - Names linked to data (other than author attribution, which naturally must be included)
 - Student IDs, national IDs, or any identification numbers
 - Photos of identifiable individuals
@@ -31,12 +32,118 @@ This includes but is not limited to:
 
 ---
 
+## Submission Format Requirements
+
+| Submission Type | Format | Location |
+|-----------------|--------|----------|
+| SSH Public Key (Individual) | OpenSSH `.pub` | `ssh-keys-individual/` |
+| Case Brief (Individual) | Markdown `.md` | `case-brief-individual/` |
+| Data (Group) | Folder with data files incl. `README.md` | `data-group/` |
+| Project Code (Group) | Folder with code incl. `README.md` | `project-code-group/` |
+| Test Cases (Group) | Markdown `.md` with reference to `tests/` in project code | `tests-group/` |
+| System Design (Group) | draw.io `.drawio` XML (UML standard) | `system-design-group/` |
+| Presentation Slides (Group) | Beamer `.tex` (NordlingLab 16:9 template) | `slides-demonstration-group/` |
+| Video Demonstration (Group) | YouTube link `.txt` | `video-demonstration-group/` |
+| Reflection (Group) | Markdown `.md` | `reflection-group/` |
+| Technical Report (Individual) | Markdown `.md` | `report-individual/` |
+
+See the `README.md` in each folder for detailed requirements, grading criteria, and examples.
+
+### Deadline Summary
+
+| Date | Time | Submissions Due |
+|------|------|-----------------|
+| Fri 2026-01-16 | 10:00 | SSH Public Key, Case Brief |
+| Tue 2026-01-20 | 13:00 | Data, Project Code, Test Cases, System Design |
+| Wed 2026-01-21 | 13:00 | Presentation Slides, Video, Reflection |
+| Fri 2026-01-23 | 13:00 | Technical Report |
+
+**All times are Taiwan Standard Time (UTC+8).**
+
+---
+
+## Naming Standards
+
+### File Naming Convention
+
+#### IMPORTANT: ASCII Characters Only
+
+**Use only ASCII characters in file and folder names. No Chinese characters, spaces, or special characters.**
+
+#### Individual Submissions
+
+Format: `YYYY-FamilyName-FirstName.md`
+
+Examples:
+
+- `2026-Chen-Wei.md`
+- `2026-Lin-MeiLing.md`
+- `2026-Wang-XiaoMing.md`
+
+#### Group Submissions
+
+Format: `YYYY-FamilyName1-FamilyName2-FamilyName3/` (folder) or `YYYY-FamilyName1-FamilyName2-FamilyName3.ext` (file)
+
+List all group members' family names in alphabetical order.
+
+Examples:
+
+- `2026-Chen-Lin-Wang-code` (folder for group code submissions)
+- `2026-Chen-Lin-Wang.tex` (Beamer slides)
+- `2026-Chen-Lin-Wang.drawio` (system design)
+
+### Branch/Submission Naming
+
+**Format:** `submission/YYYY-FamilyName-type` or `submission/YYYY-FamilyName1-FamilyName2-FamilyName3-type`
+
+| Type | Example Branch Name |
+|------|---------------------|
+| SSH key | `submission/2026-Chen-ssh-key` |
+| Case brief | `submission/2026-Lin-case-brief` |
+| Group data | `submission/2026-Chen-Lin-Wang-data` |
+| Group code | `submission/2026-Chen-Lin-Wang-code` |
+| Group tests | `submission/2026-Chen-Lin-Wang-tests` |
+| Group system design | `submission/2026-Chen-Lin-Wang-system-design` |
+| Group slides | `submission/2026-Chen-Lin-Wang-slides` |
+| Group video | `submission/2026-Chen-Lin-Wang-video` |
+| Group reflection | `submission/2026-Chen-Lin-Wang-reflection` |
+| Report | `submission/2026-Lin-report` |
+
+### Remote Naming
+
+| Remote Name | Used By | Points To |
+|-------------|---------|-----------|
+| `origin` | Everyone | Your own fork |
+| `upstream-nordlinglab` | Everyone | `nordlinglab/course-agenticai-ecg-hrv` |
+| `upstream-group` | Members only | Group leader's fork |
+
+### Commit Message Format
+
+```
+<type>: <short description>
+
+<optional longer description>
+
+Co-Authored-By: Name <email>  (if pair programming)
+```
+
+Types: `Add`, `Update`, `Fix`, `Remove`, `Refactor`
+
+Examples:
+
+- `Add: Case brief for Chen-Wei`
+- `Update: Fix formatting in group slides`
+- `Add: ECG analysis code for group Chen-Lin-Wang`
+
+---
+
 ## Repository Structure
 
 ```
 student-material-ecg-hrv/
 │
 ├── README.md                      # This file
+├── INSTALL_CLAUDE_CODE_GEMINI_CODEX_CLI.md  # AI CLI installation guide
 ├── Syllabus_....md                # Course syllabus (reference)
 │
 ├── ssh-keys-individual/           # Individual SSH public keys (for server access)
@@ -74,61 +181,145 @@ The example data and code repositories are included as git submodules:
 
 ---
 
-## File Naming Convention
+## Fork Hierarchy and Workflow Overview
 
-### IMPORTANT: ASCII Characters Only
+This course uses a **hierarchical fork structure**, which is standard practice in industry for team-based software development.
 
-**Use only ASCII characters in file and folder names. No Chinese characters, spaces, or special characters.**
+### Why Hierarchical Forks?
 
-### Individual Submissions
+In professional software development, teams rarely submit work directly to the main company repository. Instead:
 
-Format: `YYYY-FamilyName-FirstName.md`
+1. **Individual developers** work in their own forks/branches
+2. **Team leads** integrate and review team members' work
+3. **Only reviewed, integrated work** gets submitted to the main repository
 
-Examples:
-- `2026-Chen-Wei.md`
-- `2026-Lin-MeiLing.md`
-- `2026-Wang-XiaoMing.md`
+This pattern provides:
 
-### Group Submissions
+- **Quality gates**: Code is reviewed before reaching the main repo
+- **Team autonomy**: Groups can iterate quickly without affecting others
+- **Reduced noise**: Maintainers review fewer, higher-quality submissions
+- **Clear accountability**: Team leads are responsible for their group's contributions
 
-Format: `YYYY-FamilyName1-FamilyName2-FamilyName3/` (folder) or `YYYY-FamilyName1-FamilyName2-FamilyName3.ext` (file)
+### The Fork Structure
 
-List all group members' family names in alphabetical order.
+```
+nordlinglab/course-agenticai-ecg-hrv     ← Course repository (TA/Teacher maintains)
+        │
+        └── group-leader/course-agenticai-ecg-hrv     ← Group repository (Leader's fork)
+                │
+                ├── member-A/course-agenticai-ecg-hrv     ← Member's fork (of leader)
+                └── member-B/course-agenticai-ecg-hrv     ← Member's fork (of leader)
+```
 
-Examples:
-- `2026-Chen-Lin-Wang-code` (folder for group code submissions)
-- `2026-Chen-Lin-Wang.tex` (Beamer slides)
-- `2026-Chen-Lin-Wang.drawio` (system design)
+### Remote Naming Convention
 
----
+Each person has different remotes depending on their role:
 
-## Submission Format Requirements
+**Group Leader:**
+| Remote | Points To | Purpose |
+|--------|-----------|---------|
+| `origin` | Your fork | Push your work |
+| `upstream-nordlinglab` | nordlinglab repo | Sync course updates, submit group PRs |
 
-| Submission Type | Format | Location |
-|-----------------|--------|----------|
-| SSH Public Key (Individual) | OpenSSH `.pub` | `ssh-keys-individual/` |
-| Case Brief (Individual) | Markdown `.md` | `case-brief-individual/` |
-| Data (Group) | Folder with data files incl. `README.md` | `data-group/` |
-| Project Code (Group) | Folder with code incl. `README.md` | `project-code-group/` |
-| Test Cases (Group) | Markdown `.md` with reference to `tests/` in project code | `tests-group/` |
-| System Design (Group) | draw.io `.drawio` XML (UML standard) | `system-design-group/` |
-| Presentation Slides (Group) | Beamer `.tex` (NordlingLab 16:9 template) | `slides-demonstration-group/` |
-| Video Demonstration (Group) | YouTube link `.txt` | `video-demonstration-group/` |
-| Reflection (Group) | Markdown `.md` | `reflection-group/` |
-| Technical Report (Individual) | Markdown `.md` | `report-individual/` |
+**Group Member:**
+| Remote | Points To | Purpose |
+|--------|-----------|---------|
+| `origin` | Your fork | Push your work |
+| `upstream-group` | Leader's fork | Submit PRs to group, sync group updates |
+| `upstream-nordlinglab` | nordlinglab repo | Sync course updates directly (optional) |
 
-See the `README.md` in each folder for detailed requirements, grading criteria, and examples.
+### Complete Workflow Cycle
 
-### Deadline Summary
+The diagram below shows the complete submission cycle:
 
-| Date | Time | Submissions Due |
-|------|------|-----------------|
-| Fri 2026-01-16 | 10:00 | SSH Public Key, Case Brief |
-| Tue 2026-01-20 | 13:00 | Data, Project Code, Test Cases, System Design |
-| Wed 2026-01-21 | 13:00 | Presentation Slides, Video, Reflection |
-| Fri 2026-01-23 | 13:00 | Technical Report |
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  PHASE 1: SETUP (One-time)                                                  │
+│  ─────────────────────────                                                  │
+│  1.  [All] Install Git                                                      │
+│  2.  [All] Configure Git                                                    │
+│  3.  [All] Create GitHub Account and Install GitHub CLI                     │
+│  4.  [All] Get AI Assistance for Git Commands                               │
+│  5.  Fork the Repository                                                    │
+│      • [Leader] Fork nordlinglab → creates group repository                 │
+│      • [Member] Fork leader's fork → creates personal repository            │
+│  6.  [All] Clone Your Fork and Set Up Remotes                               │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                      │
+                                      ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  PHASE 2: INDIVIDUAL WORK                                                   │
+│  ────────────────────────                                                   │
+│  7.  [All] Sync Your Fork Before Starting Work                              │
+│  8.  [All] Create a Submission Branch                                       │
+│  9.  [All] Make Changes and Commit                                          │
+│  10. [All] Push Your Branch to Your Fork                                    │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                      │
+                                      ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  PHASE 3: GROUP INTEGRATION                                                 │
+│  ─────────────────────────                                                  │
+│  11. [Member] Create a Pull Request to Group (PR to leader's fork)          │
+│  12. Group Code Review Process                                              │
+│      • [Leader] Review member PRs, request changes if needed                │
+│      • [Member] Update PR based on feedback                                 │
+│      • [Leader] Approve and merge member PRs                                │
+│  13. [All] After Your PR is Merged (cleanup branches, sync)                 │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                      │
+                                      ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  PHASE 4: GROUP SUBMISSION                                                  │
+│  ────────────────────────                                                   │
+│  14. [Leader] Create a Pull Request to Submit Group's Work                  │
+│      • Create submission branch from main                                   │
+│      • Push branch and create PR to upstream-nordlinglab                    │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                      │
+                                      ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  PHASE 5: TA REVIEW                                                         │
+│  ──────────────────                                                         │
+│  15. TA Review and Final Merge                                              │
+│      • [TA] Review group PR, request changes if needed                      │
+│      • [Leader] Implement changes, update PR                                │
+│      • [TA] Approve and merge (squash commits for clean history)            │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                      │
+                                      ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  PHASE 6: SYNC UPDATES                                                      │
+│  ─────────────────────                                                      │
+│  16. Updating Your Fork                                                     │
+│      • [Leader] Fetch from upstream-nordlinglab, merge to main, push        │
+│      • [Member] Fetch from upstream-group, merge to main, push              │
+│      • [All] Ready for next submission cycle                                │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
 
-**All times are Taiwan Standard Time (UTC+8).**
+### Pull Request Branch Requirements
+
+**DO NOT submit pull requests from your `main` branch!**
+
+Always create a feature/submission branch for your submissions:
+
+```bash
+# WRONG - Do not do this:
+# (making changes directly on main and creating PR from main)
+
+# CORRECT - Always do this:
+git checkout -b submission/YYYY-YourName-type
+# Example: git checkout -b submission/2026-Chen-Wei-ssh-key
+```
+
+**Why this matters:**
+
+- PRs from `main` cause merge conflicts when other students' PRs are merged first
+- Feature branches can be safely deleted after merge (main cannot)
+- This is standard industry practice for collaborative Git workflows
+
+**Branch naming convention:** `submission/YYYY-FamilyName-type` or `submission/YYYY-FamilyName1-FamilyName2-FamilyName3-type`
 
 ---
 
@@ -136,7 +327,7 @@ See the `README.md` in each folder for detailed requirements, grading criteria, 
 
 If you have never used Git before, follow these steps carefully.
 
-### Step 1: Install Git
+### Step 1: Install Git **[All students]**
 
 **macOS:**
 ```bash
@@ -145,15 +336,20 @@ xcode-select --install
 ```
 
 **Windows:**
-Download and install from: https://git-scm.com/download/win
+```bash
+# Using winget (recommended)
+winget install --id Git.Git -e --source winget
+# Or download and install from: https://git-scm.com/download/win
+```
 
 **Linux (Ubuntu/Debian):**
+Normally preinstalled otherwise:
 ```bash
 sudo apt update
 sudo apt install git
 ```
 
-### Step 2: Configure Git
+### Step 2: Configure Git **[All students]**
 
 Open your terminal and set your identity:
 
@@ -162,7 +358,7 @@ git config --global user.name "Your Name"
 git config --global user.email "your.email@example.com"
 ```
 
-### Step 3: Create a GitHub Account and Install the GitHub CLI
+### Step 3: Create a GitHub Account and Install the GitHub CLI **[All students]**
 
 #### If you don't have a GitHub account:
 
@@ -208,6 +404,7 @@ gh auth login
 ```
 
 Follow the prompts:
+
 1. Select **GitHub.com**
 2. Select **HTTPS** (recommended for beginners) or **SSH**
 3. Authenticate with your browser when prompted
@@ -217,34 +414,82 @@ Verify authentication:
 gh auth status
 ```
 
-### Step 4: Fork the Repository
+### Step 4: Get AI Assistance for Git Commands **[All students]**
 
-Since you have **read-only access** to the original repository, you must create your own copy (fork):
+AI coding assistants (Claude Code, Gemini CLI, GitHub Copilot, Codex CLI) can help you with Git commands. To ensure they understand this course's workflow:
 
-#### Option A: Using the GitHub CLI (Recommended)
+**Recommended prompt:**
+```
+Read the README.md file in this repository and follow its fork hierarchy
+and naming conventions when helping me with git and gh commands.
+```
 
+Or more specifically:
+```
+I'm in a course that uses hierarchical forks: nordlinglab → group-leader → member.
+I am a [group leader / group member]. My group leader's GitHub username is [USERNAME].
+Help me with git commands following this structure.
+```
+
+The AI will then provide commands that match the course's workflow and naming standards.
+
+### Step 5: Fork the Repository
+
+The forking process differs based on your role. See [Fork Hierarchy](#fork-hierarchy-and-workflow-overview) for why.
+
+#### For Group Leaders **[Group Leader only]**
+
+Fork the **course repository** (nordlinglab). Your fork becomes the group's shared repository.
+
+**Using gh CLI:**
 ```bash
-# Fork the repository (creates YOUR_USERNAME/course-agenticai-ecg-hrv on GitHub)
+# Fork nordlinglab's repository
 gh repo fork nordlinglab/course-agenticai-ecg-hrv --clone=false
 
 # Verify the fork was created
 gh repo list --fork
 ```
 
-#### Option B: Using the Web Interface
+**Using Web Interface:**
 
-1. Log in to [GitHub](https://github.com/)
-2. Go to [this repository](https://github.com/nordlinglab/course-agenticai-ecg-hrv)
-3. Click the **"Fork"** button in the upper right corner
-4. Select your account as the destination
-5. Click **"Create fork"**
+1. Go to https://github.com/nordlinglab/course-agenticai-ecg-hrv
+2. Click **"Fork"** button (upper right)
+3. Select your account as destination
+4. Click **"Create fork"**
 
-You now have your own copy at `https://github.com/YOUR_USERNAME/course-agenticai-ecg-hrv` where you can make changes.
+Your fork is now at: `https://github.com/YOUR_USERNAME/course-agenticai-ecg-hrv`
 
-### Step 5: Clone Your Fork
+**Tell your group members your GitHub username** so they can fork your repository.
 
-#### Option A: Using the GitHub CLI (Recommended)
+#### For Group Members **[Group Member only]**
 
+Fork your **group leader's repository** (not nordlinglab directly).
+
+**Using gh CLI:**
+```bash
+# Fork your group leader's repository (replace LEADER_USERNAME)
+gh repo fork LEADER_USERNAME/course-agenticai-ecg-hrv --clone=false
+
+# Verify the fork was created
+gh repo list --fork
+```
+
+**Using Web Interface:**
+
+1. Go to `https://github.com/LEADER_USERNAME/course-agenticai-ecg-hrv`
+2. Click **"Fork"** button (upper right)
+3. Select your account as destination
+4. Click **"Create fork"**
+
+Your fork is now at: `https://github.com/YOUR_USERNAME/course-agenticai-ecg-hrv`
+
+### Step 6: Clone Your Fork and Set Up Remotes **[All students]**
+
+Clone your fork to your local machine and configure the remotes based on your role.
+
+#### Cloning (Same for Everyone)
+
+**Using gh CLI:**
 ```bash
 # Navigate to where you want to store the project
 cd ~/Documents
@@ -254,115 +499,436 @@ gh repo clone YOUR_USERNAME/course-agenticai-ecg-hrv -- --recursive
 
 # Enter the project directory
 cd course-agenticai-ecg-hrv
-
-# Add the original repository as upstream (for pulling updates)
-git remote add upstream git@github.com:nordlinglab/course-agenticai-ecg-hrv.git
-
-# Verify remotes
-git remote -v
-# origin    git@github.com:YOUR_USERNAME/course-agenticai-ecg-hrv.git (your fork)
-# upstream  git@github.com:nordlinglab/course-agenticai-ecg-hrv.git (original)
 ```
 
-#### Option B: Using git clone directly
-
+**Using git clone:**
 ```bash
-# Navigate to where you want to store the project
 cd ~/Documents
 
-# Clone YOUR fork with submodules (not the original repository)
-# Option 1: HTTPS (recommended for beginners)
+# HTTPS (recommended for beginners)
 git clone --recursive https://github.com/YOUR_USERNAME/course-agenticai-ecg-hrv.git
 
-# Option 2: SSH (if you have SSH keys set up)
+# Or SSH (if you have SSH keys set up already)
 git clone --recursive git@github.com:YOUR_USERNAME/course-agenticai-ecg-hrv.git
 
-# Enter the project directory
 cd course-agenticai-ecg-hrv
-
-# Add upstream remote
-git remote add upstream https://github.com/nordlinglab/course-agenticai-ecg-hrv.git
 ```
 
-**Note:** The `--recursive` flag initializes all git submodules (example data and code repositories).
-
-If you already cloned without `--recursive`, initialize submodules with:
-
+**Note:** See [Setting up SSH Keys for GitHub](#setting-up-ssh-keys-for-github).
+The `--recursive` flag initializes git submodules. If you forgot it:
 ```bash
 git submodule update --init --recursive
 ```
 
-### Step 6: Create Your Submission
+#### Setting Up Remotes - Group Leader **[Group Leader only]**
 
-1. Navigate to the appropriate folder
-2. Create your file following the naming convention
-3. Add required content (see folder [README](./case-brief-individual/README.md) for requirements)
-
-Example for case brief:
 ```bash
-cd case-brief-individual
+# Add nordlinglab as upstream (for syncing course updates and submitting group PRs)
+# Using HTTPS:
+git remote add upstream-nordlinglab https://github.com/nordlinglab/course-agenticai-ecg-hrv.git
+# Or using SSH:
+git remote add upstream-nordlinglab git@github.com:nordlinglab/course-agenticai-ecg-hrv.git
 
-# Create your file (use a text editor)
-# File must be named: YYYY-YourFamilyName-YourFirstName.md
+# Verify your remotes
+git remote -v
+# Expected output:
+# origin                https://github.com/YOUR_USERNAME/course-agenticai-ecg-hrv.git (fetch)
+# origin                https://github.com/YOUR_USERNAME/course-agenticai-ecg-hrv.git (push)
+# upstream-nordlinglab  https://github.com/nordlinglab/course-agenticai-ecg-hrv.git (fetch)
+# upstream-nordlinglab  https://github.com/nordlinglab/course-agenticai-ecg-hrv.git (push)
 ```
 
-### Step 7: Stage and Commit Your Changes
+#### Setting Up Remotes - Group Member **[Group Member only]**
 
 ```bash
+# Add group leader's fork as upstream-group (for submitting PRs and syncing)
+# Using HTTPS:
+git remote add upstream-group https://github.com/LEADER_USERNAME/course-agenticai-ecg-hrv.git
+# Or using SSH:
+git remote add upstream-group git@github.com:LEADER_USERNAME/course-agenticai-ecg-hrv.git
+
+# Add nordlinglab as upstream-nordlinglab (optional, for direct course updates)
+# Using HTTPS:
+git remote add upstream-nordlinglab https://github.com/nordlinglab/course-agenticai-ecg-hrv.git
+# Or using SSH:
+git remote add upstream-nordlinglab git@github.com:nordlinglab/course-agenticai-ecg-hrv.git
+
+# Verify your remotes
+git remote -v
+# Expected output:
+# origin                https://github.com/YOUR_USERNAME/course-agenticai-ecg-hrv.git (fetch)
+# origin                https://github.com/YOUR_USERNAME/course-agenticai-ecg-hrv.git (push)
+# upstream-group        https://github.com/LEADER_USERNAME/course-agenticai-ecg-hrv.git (fetch)
+# upstream-group        https://github.com/LEADER_USERNAME/course-agenticai-ecg-hrv.git (push)
+# upstream-nordlinglab  https://github.com/nordlinglab/course-agenticai-ecg-hrv.git (fetch)
+# upstream-nordlinglab  https://github.com/nordlinglab/course-agenticai-ecg-hrv.git (push)
+```
+
+### Step 7: Sync Your Fork Before Starting Work **[All students]**
+
+Before creating a new submission, always sync your fork with the latest changes.
+
+#### For Group Leaders **[Group Leaders, but Group Members can also do it]**
+
+```bash
+# Fetch updates from nordlinglab
+git fetch upstream-nordlinglab
+
+# Switch to main branch
+git checkout main
+
+# Merge updates
+git merge upstream-nordlinglab/main
+
+# Push to your fork (which is also the group repo)
+git push origin main
+
+# Update submodules
+git submodule update --init --recursive
+```
+
+**Using gh CLI (alternative):**
+```bash
+gh repo sync YOUR_USERNAME/course-agenticai-ecg-hrv --source nordlinglab/course-agenticai-ecg-hrv
+git pull origin main
+git submodule update --init --recursive
+```
+
+#### For Group Members **[Group Member only]**
+
+```bash
+# Fetch updates from group leader's fork
+git fetch upstream-group
+
+# Switch to main branch
+git checkout main
+
+# Merge updates
+git merge upstream-group/main
+
+# Push to your fork
+git push origin main
+
+# Update submodules
+git submodule update --init --recursive
+```
+
+### Step 8: Create a Submission Branch **[All students]**
+
+**IMPORTANT: Never commit directly to `main`. Always create a feature branch.**
+
+```bash
+# Make sure you're on main and it's up to date
+git checkout main
+git pull origin main
+
+# Create a submission branch (see Naming Standards for format)
+git checkout -b submission/YYYY-YourFamilyName-type
+
+# Examples:
+# Individual: git checkout -b submission/2026-Chen-case-brief
+# Group:      git checkout -b submission/2026-Chen-Lin-Wang-slides
+```
+
+### Step 9: Make Changes and Commit **[All students]**
+
+```bash
+# Navigate to the appropriate folder
+cd case-brief-individual/  # or slides-demonstration-group/, etc.
+
+# Create or edit your file(s) using your text editor
+# Follow the naming convention: YYYY-FamilyName-FirstName
+
 # Check what files have changed
 git status
 
-# Stage your new file(s)
-# Option 1: If you are in the folder case-brief-individual
-git add YYYY-YourFamilyName-YourFirstName.md
-# Option 2: If you are in the root of the repository
-git add case-brief-individual/YYYY-YourFamilyName-YourFirstName.md
+# Stage your files
+git add YYYY-FamilyName-FirstName.md
+# Or stage all changes in current folder:
+git add .
 
-# Commit with a descriptive message
-git commit -m "Add case brief for YourName"
+# Commit with a descriptive message (see Naming Standards for format)
+git commit -m "Add: Case brief for Chen-Wei"
 ```
 
-### Step 8: Push to Your Fork
+### Step 10: Push Your Branch to Your Fork **[All students]**
 
 ```bash
+# Push your submission branch to your fork
+git push origin submission/YYYY-YourFamilyName-type
+
+# Example:
+git push origin submission/2026-Chen-case-brief
+```
+
+### Step 11: Create a Pull Request to Group **[Group Member only]**
+
+Group members submit PRs to their group leader's fork (`upstream-group`).
+
+#### PR to Group Leader
+
+**Using gh CLI:**
+```bash
+# Create PR to your group leader's repository
+gh pr create --repo LEADER_USERNAME/course-agenticai-ecg-hrv \
+  --title "Submission: YYYY-YourFamilyName - [type]" \
+  --body "Description of what you're submitting"
+
+# Or interactively:
+gh pr create --repo LEADER_USERNAME/course-agenticai-ecg-hrv
+```
+
+**Using Web Interface:**
+
+1. Go to your fork: `github.com/YOUR_USERNAME/course-agenticai-ecg-hrv`
+2. You'll see a banner: "submission/... had recent pushes" → Click **"Compare & pull request"**
+3. Or: Click **"Pull requests"** tab → **"New pull request"**
+4. Set:
+   - **base repository:** `LEADER_USERNAME/course-agenticai-ecg-hrv`
+   - **base:** `main`
+   - **head repository:** `YOUR_USERNAME/course-agenticai-ecg-hrv`
+   - **compare:** `submission/YYYY-YourFamilyName-type`
+5. Fill in title and description
+6. Click **"Create pull request"**
+
+### Step 12: Group Code Review Process
+
+#### For Group Leaders - Reviewing Member PRs **[Group Leader only]**
+
+When group members submit PRs to your repository:
+
+**Using gh CLI:**
+```bash
+# List pending PRs in your repository
+gh pr list
+
+# View a specific PR
+gh pr view PR_NUMBER
+
+# View the changes
+gh pr diff PR_NUMBER
+
+# Check out the PR locally for testing
+gh pr checkout PR_NUMBER
+
+# Add a comment
+gh pr comment PR_NUMBER --body "Your feedback here"
+
+# Request changes
+gh pr review PR_NUMBER --request-changes --body "Please fix..."
+
+# Approve the PR
+gh pr review PR_NUMBER --approve --body "Looks good!"
+
+# Merge the PR (squash recommended for clean history)
+gh pr merge PR_NUMBER --squash --delete-branch
+```
+
+**Using Web Interface:**
+
+1. Go to **"Pull requests"** tab in your repository
+2. Click on the PR to review
+3. Go to **"Files changed"** tab to see the diff
+4. Click the **+** button on any line to add comments
+5. Click **"Review changes"** → Select **Approve** or **Request changes**
+6. When ready, click **"Merge pull request"** → **"Squash and merge"**
+
+#### For Group Members - Responding to Feedback **[Group Member only]**
+
+If the leader requests changes:
+
+```bash
+# Make sure you're on your submission branch
+git checkout submission/YYYY-YourFamilyName-type
+
+# Make the requested changes to your files
+
+# Stage and commit the fixes
+git add .
+git commit -m "Fix: Address review feedback"
+
+# Push the updates (the PR will automatically update)
+git push origin submission/YYYY-YourFamilyName-type
+```
+
+### Step 13: After Your PR is Merged **[All students]**
+
+Once your PR is merged, clean up your local branches:
+
+```bash
+# Switch back to main
+git checkout main
+
+# Delete your local submission branch
+git branch -d submission/YYYY-YourFamilyName-type
+
+# Delete the remote branch (may already be deleted by merge then this command does nothing but is safe to execute)
+git push origin --delete submission/YYYY-YourFamilyName-type
+```
+
+#### For Group Leaders - Sync with Changes **[Group Leader only]**
+
+```bash
+# Sync your main with the merged changes from nordlinglab
+git fetch upstream-nordlinglab
+git merge upstream-nordlinglab/main
+
 git push origin main
 ```
 
-### Step 9: Create a Pull Request
-
-#### Option A: Using the GitHub CLI (Recommended)
+#### For Group Members - Sync with Changes **[Group Member only]**
 
 ```bash
-# Create a pull request to the original repository
-gh pr create --repo nordlinglab/course-agenticai-ecg-hrv \
-  --title "Submission: YYYY-YourFamilyName-YourFirstName - [type]" \
-  --body "Description of what you're submitting"
+# Sync your main with the merged changes from group
+git fetch upstream-group
+git merge upstream-group/main
+# Sync your main with the merged changes from nordlinglab (optional)
+git fetch upstream-nordlinglab
+git merge upstream-nordlinglab/main
 
-# Or interactively (prompts for title and body)
-gh pr create --repo nordlinglab/course-agenticai-ecg-hrv
-
-# To create a PR to a group member's fork instead:
-gh pr create --repo GROUPMATE_USERNAME/course-agenticai-ecg-hrv \
-  --title "Collaboration: Adding my work" \
-  --body "Description of changes"
+git push origin main
 ```
 
-#### Option B: Using the Web Interface
+### Step 14: Create a Pull Request to Submit Group's Work **[Group Leader only]**
 
-1. Go to **your fork** on GitHub (`github.com/YOUR_USERNAME/course-agenticai-ecg-hrv`)
-2. Click **"Contribute"** → **"Open pull request"** (or click the **"Pull requests"** tab → **"New pull request"**)
+
+First, ensure all member PRs are merged into your main branch. Then create a submission branch and PR:
+
+```bash
+# 1. Make sure main has all merged member work
+git checkout main
+git pull origin main
+
+# 2. Create submission branch from main
+git checkout -b submission/YYYY-GroupNames-type
+# Example: git checkout -b submission/2026-Chen-Lin-Wang-code
+
+# 3. Push the branch to origin
+git push origin submission/YYYY-GroupNames-type
+```
+
+**Using gh CLI:**
+```bash
+# 4. Create PR to the course repository (run from your submission branch)
+gh pr create --repo nordlinglab/course-agenticai-ecg-hrv \
+  --title "Submission: YYYY-FamilyName1-FamilyName2-FamilyName3 - [type]" \
+  --body "Group submission containing work from: [list members]"
+
+# Or interactively:
+gh pr create --repo nordlinglab/course-agenticai-ecg-hrv
+```
+
+**Using Web Interface:**
+
+1. Go to your fork: `github.com/YOUR_USERNAME/course-agenticai-ecg-hrv`
+2. Click **"Contribute"** → **"Open pull request"**
 3. Set:
-
-   - **base repository:** `nordlinglab/course-agenticai-ecg-hrv` (or the group member's fork)
+   - **base repository:** `nordlinglab/course-agenticai-ecg-hrv`
    - **base:** `main`
    - **head repository:** `YOUR_USERNAME/course-agenticai-ecg-hrv`
-   - **compare:** `main`
+   - **compare:** `submission/YYYY-GroupNames-type`
+4. Fill in title and description
+5. Click **"Create pull request"**
 
-4. Add a title: `Submission: YYYY-YourFamilyName-YourFirstName - [type]`
-5. Add description of what you're submitting
-6. Click **"Create pull request"**
+### Step 15: TA Review and Final Merge **[TA/Teacher]**
 
-The TA or group member whose repository you forked will review your submission and merge it if it meets the requirements.
+When reviewing group submissions to nordlinglab:
+
+```bash
+# List pending PRs
+gh pr list --repo nordlinglab/course-agenticai-ecg-hrv
+
+# Review a PR
+gh pr view PR_NUMBER --repo nordlinglab/course-agenticai-ecg-hrv
+gh pr diff PR_NUMBER --repo nordlinglab/course-agenticai-ecg-hrv
+
+# Check out locally for testing
+gh pr checkout PR_NUMBER --repo nordlinglab/course-agenticai-ecg-hrv
+
+# Request changes if needed
+gh pr review PR_NUMBER --repo nordlinglab/course-agenticai-ecg-hrv \
+  --request-changes --body "Please fix the following issues: ..."
+
+# Approve and merge with squashed commits (clean history)
+gh pr review PR_NUMBER --repo nordlinglab/course-agenticai-ecg-hrv --approve
+gh pr merge PR_NUMBER --repo nordlinglab/course-agenticai-ecg-hrv \
+  --squash --delete-branch
+```
+
+#### For Group Leaders - Responding to Feedback **[Group Leader only]**
+
+If TA requests changes:
+
+```bash
+# Make sure you're on your submission branch
+git checkout submission/YYYY-GroupNames-type
+
+# Make the requested changes
+
+# Commit and push
+git add .
+git commit -m "Fix: Address TA feedback"
+git push origin submission/YYYY-GroupNames-type
+# The PR will automatically update
+```
+
+### Step 16: Updating Your Fork **[All students]**
+
+Sync your fork when the upstream repository has new changes.
+
+#### For Group Leaders **[Group Leader only]**
+
+Sync from nordlinglab (course repository):
+
+**Using git commands:**
+```bash
+# Fetch from nordlinglab
+git fetch upstream-nordlinglab
+
+# Merge into your main branch
+git checkout main
+git merge upstream-nordlinglab/main
+
+# Update submodules
+git submodule update --init --recursive
+
+# Push to your fork (group repo)
+git push origin main
+```
+
+**Using gh CLI:**
+```bash
+gh repo sync YOUR_USERNAME/course-agenticai-ecg-hrv --source nordlinglab/course-agenticai-ecg-hrv
+git pull origin main
+git submodule update --init --recursive
+```
+
+#### For Group Members **[Group Member only]**
+
+Sync from your group leader's fork:
+
+**Using git commands:**
+```bash
+# Fetch from group leader's fork
+git fetch upstream-group
+
+# Merge into your main branch
+git checkout main
+git merge upstream-group/main
+
+# Update submodules
+git submodule update --init --recursive
+
+# Push to your fork
+git push origin main
+```
+
+**Optional: Sync directly from nordlinglab** (if leader hasn't synced yet):
+```bash
+git fetch upstream-nordlinglab
+git merge upstream-nordlinglab/main
+git push origin main
+```
 
 ---
 
@@ -381,71 +947,28 @@ The TA or group member whose repository you forked will review your submission a
 
 ---
 
-## Updating Your Fork
-
-If the original repository is updated, sync your fork:
-
-#### Option A: Using the GitHub CLI (Easiest)
-
-```bash
-# Sync your fork with the upstream repository
-gh repo sync YOUR_USERNAME/course-agenticai-ecg-hrv
-
-# Then pull the updates to your local clone
-git pull origin main
-
-# Update submodules
-git submodule update --init --recursive
-```
-
-#### Option B: Using git commands
-
-```bash
-# Add the original repo as "upstream" (do this once, if not already done)
-# Option 1: HTTPS
-git remote add upstream https://github.com/nordlinglab/course-agenticai-ecg-hrv.git
-# Option 2: SSH
-git remote add upstream git@github.com:nordlinglab/course-agenticai-ecg-hrv.git
-
-# Or if you forked a group member's repository, add multiple upstreams:
-git remote add upstream-prof git@github.com:nordlinglab/course-agenticai-ecg-hrv.git
-git remote add upstream-groupmate git@github.com:GROUPMATE_USERNAME/course-agenticai-ecg-hrv.git
-
-# Fetch updates from original (including submodules)
-git fetch upstream
-# Or fetch from all remotes
-git fetch --all
-
-# Merge updates into your branch
-git merge upstream/main
-
-# Update submodules to latest
-git submodule update --init --recursive
-
-# Push updates to your fork
-git push origin main
-```
-
----
-
 ## Reviewing Pull Requests
 
-This section explains how to review code changes from your group members.
+This section provides additional detail on reviewing pull requests. See also [Step 12: Code Review Process](#step-12-code-review-process).
 
 ### Using the GitHub CLI (Recommended)
 
-The `gh` CLI provides powerful commands for managing pull requests from your terminal.
+The `gh` CLI provides powerful commands for managing pull requests.
 
 #### Listing Pull Requests
 
+**[Group Leader]** - List PRs in your repository (from group members):
 ```bash
-# List PRs in the original repository
+gh pr list
+```
+
+**[TA/Teacher]** - List PRs in nordlinglab:
+```bash
 gh pr list --repo nordlinglab/course-agenticai-ecg-hrv
+```
 
-# List PRs in a group member's repository
-gh pr list --repo GROUPMATE_USERNAME/course-agenticai-ecg-hrv
-
-# List only PRs assigned to you for review
+**[All]** - List PRs assigned to you for review:
+```bash
 gh pr list --repo nordlinglab/course-agenticai-ecg-hrv --search "review-requested:@me"
 ```
 
@@ -513,7 +1036,7 @@ gh pr merge 123 --repo nordlinglab/course-agenticai-ecg-hrv --squash
 # Rebase merge (replay commits on top of main)
 gh pr merge 123 --repo nordlinglab/course-agenticai-ecg-hrv --rebase
 
-# Merge and delete the branch
+# Merge and delete the branch (recommended)
 gh pr merge 123 --repo nordlinglab/course-agenticai-ecg-hrv --squash --delete-branch
 ```
 
@@ -578,38 +1101,46 @@ git submodule update --init --recursive
 
 **What this means:** The target branch has new commits that aren't in your PR branch. You need to update your branch.
 
-**Solution (for the author of the pull request):**
+**Solution (for Group Members - PR to group leader):**
 
 ```bash
-# In your local repository
 cd course-agenticai-ecg-hrv
 
-# Fetch the latest from upstream
-git fetch upstream
+# Fetch the latest from group leader
+git fetch upstream-group
 
-# Merge upstream changes into your branch
-git merge upstream/main
+# Check out your submission branch
+git checkout submission/YYYY-YourFamilyName-type
 
-# If there are conflicts, resolve them in your editor, then:
+# Merge changes
+git merge upstream-group/main
+
+# If there are conflicts, resolve them, then:
 git add .
-git commit -m "Merge upstream changes"
+git commit -m "Merge upstream-group changes"
 
 # Push the updated branch
-git push origin main
+git push origin submission/YYYY-YourFamilyName-type
 ```
 
-**Alternative - Rebase (cleaner history):**
+**Solution (for Group Leaders - PR to nordlinglab):**
 
 ```bash
-git fetch upstream
-git rebase upstream/main
+# Fetch the latest from nordlinglab
+git fetch upstream-nordlinglab
 
-# If conflicts occur, resolve them, then:
+# Check out your submission branch
+git checkout submission/YYYY-GroupNames-type
+
+# Merge changes
+git merge upstream-nordlinglab/main
+
+# If there are conflicts, resolve them, then:
 git add .
-git rebase --continue
+git commit -m "Merge upstream-nordlinglab changes"
 
-# Force push the rebased branch (required after rebase)
-git push origin main --force-with-lease
+# Push the updated branch
+git push origin submission/YYYY-GroupNames-type
 ```
 
 After pushing, the pull request will automatically update and the warning should disappear.
@@ -680,37 +1211,37 @@ Delta features:
 
 #### Reviewing a Pull Request Locally (Alternative to `gh pr checkout`)
 
-If you prefer using git commands directly:
+**[Group Leader only]** - If you prefer using git commands directly to review member submissions:
 
 ```bash
-# Fetch the pull request branch from your group member's fork
-# First, add their fork as a remote (do this once)
-git remote add groupmate git@github.com:GROUPMATE_USERNAME/course-agenticai-ecg-hrv.git
-
-# Fetch their branches
-git fetch groupmate
+# If you need to add a specific member's fork as remote (usually not needed)
+# Your upstream-group is your own repo, members submit PRs to you
+# To review a specific member's work before they submit:
+git remote add member-name git@github.com:MEMBER_USERNAME/course-agenticai-ecg-hrv.git
+git fetch member-name
 
 # View the diff between your main and their branch
-# Option 1: built-in diff
-git diff main..groupmate/main
-# Option 2: delta for better visualization
-git diff main..groupmate/main | delta
+git diff main..member-name/main
+# With delta for better visualization:
+git diff main..member-name/main | delta
 
 # View only file names that changed
-git diff --name-only main..groupmate/main
+git diff --name-only main..member-name/main
 
 # View diff statistics (lines added/removed per file)
-git diff --stat main..groupmate/main
+git diff --stat main..member-name/main
 ```
+
+**Note:** For most reviews, use `gh pr checkout` which is simpler.
 
 #### Checking Out a Pull Request Branch for Testing
 
 ```bash
-# Option 1: Using gh CLI (recommended)
-gh pr checkout 123 --repo nordlinglab/course-agenticai-ecg-hrv
+# Using gh CLI (recommended)
+gh pr checkout PR_NUMBER
 
-# Option 2: Manual checkout from group member's remote
-git checkout -b review-groupmate groupmate/main
+# Manual checkout from member's remote
+git checkout -b review-member member-name/submission-branch
 
 # Run tests, check the code, etc.
 # ...
@@ -719,20 +1250,19 @@ git checkout -b review-groupmate groupmate/main
 git checkout main
 
 # Delete the review branch
-git branch -d review-groupmate
+git branch -d review-member
 ```
 
 #### Viewing Commit History
 
 ```bash
-# See commits in the PR
-git log main..groupmate/main --oneline
+# See commits in the PR (using gh CLI)
+gh pr view PR_NUMBER --json commits
 
-# See commits with full details
-git log main..groupmate/main
-
-# See commits as a graph
-git log main..groupmate/main --oneline --graph
+# Or using git with a specific remote
+git log main..member-name/main --oneline
+git log main..member-name/main
+git log main..member-name/main --oneline --graph
 ```
 
 #### Adding Comments via Command Line
@@ -797,7 +1327,7 @@ For most users, the `gh` CLI is the easiest way to manage pull request comments 
 2. Expand **"Compare"** section
 3. Click **"Compare References..."**
 4. Select your branch (e.g., `main`)
-5. Select the branch to compare against (e.g., `groupmate/main`)
+5. Select the branch to compare against (e.g., `upstream-group/main` or `upstream-nordlinglab/main`)
 6. GitLens shows:
 
    - List of changed files
@@ -813,8 +1343,8 @@ For most users, the `gh` CLI is the easiest way to manage pull request comments 
 
 1. Open the Command Palette: `Ctrl+Shift+P` / `Cmd+Shift+P`
 2. Type **"Git: Fetch From..."**
-3. Select the remote (e.g., `groupmate`)
-4. Now you can compare against `groupmate/main`
+3. Select the remote (e.g., `upstream-group` or `upstream-nordlinglab`)
+4. Now you can compare against that remote's branches
 
 #### VS Code Pull Request Extension (Recommended for GitHub)
 
@@ -899,10 +1429,27 @@ Or visit: `https://github.com/YOUR_USERNAME?tab=repositories`
 
 If your pull request shows conflicts:
 
-1. Pull the latest changes: `git pull upstream main`
-2. Resolve conflicts in your editor
-3. Commit the resolved files
-4. Push again
+**For Group Members:**
+```bash
+git fetch upstream-group
+git checkout submission/YYYY-YourFamilyName-type
+git merge upstream-group/main
+# Resolve conflicts in your editor
+git add .
+git commit -m "Resolve merge conflicts"
+git push origin submission/YYYY-YourFamilyName-type
+```
+
+**For Group Leaders:**
+```bash
+git fetch upstream-nordlinglab
+git checkout submission/YYYY-GroupNames-type
+git merge upstream-nordlinglab/main
+# Resolve conflicts in your editor
+git add .
+git commit -m "Resolve merge conflicts"
+git push origin submission/YYYY-GroupNames-type
+```
 
 ### Wrong file name
 

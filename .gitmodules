@@ -1,6 +1,6 @@
 [submodule "data-group/2026-Chen-Lin-Wang-data"]
 	path = data-group/2026-Chen-Lin-Wang-data
-	url = git@github.com:nordlinglab/course-agenticai-ecg-hrv-example-data.git
+	url = https://github.com/nordlinglab/course-agenticai-ecg-hrv-example-data.git
 [submodule "project-code-group/2026-Chen-Lin-Wang-code"]
 	path = project-code-group/2026-Chen-Lin-Wang-code
-	url = git@github.com:nordlinglab/course-agenticai-ecg-hrv-example-code.git
+	url = https://github.com/nordlinglab/course-agenticai-ecg-hrv-example-code.git

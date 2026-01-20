@@ -521,6 +521,16 @@ result = whisper.transcribe("your_video.mp4")
 print(result["text"])
 ```
 
+**mlx-whisper vs lightning-whisper-mlx:**
+
+| Aspect | mlx-whisper | lightning-whisper-mlx |
+|--------|-------------|----------------------|
+| Processing | Sequential | Parallel (batched) |
+| Memory usage | Lower | Higher (scales with batch_size) |
+| Best for | Single videos | Batch processing many files |
+
+Lightning-whisper-mlx processes multiple audio segments in parallel, which requires more memory but increases throughput. **Accuracy is identical** - both use the same Whisper model weights. For a single 10-12 minute video, mlx-whisper is sufficient and simpler. Use lightning-whisper-mlx when processing many videos or if you have 32GB+ RAM and want maximum speed.
+
 **Note:** For Intel Macs, use the standard `openai-whisper` package instead.
 
 ---

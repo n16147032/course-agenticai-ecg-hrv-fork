@@ -1,0 +1,16 @@
+fastapi
+<<<<<<< HEAD
+uvicorn[standard]
+pydantic
+numpy
+pandas
+neurokit2
+=======
+uvicorn
+pydantic
+numpy
+scipy
+matplotlib
+wfdb
+pandas
+>>>>>>> 7f0a1abcdb0603d56a817dad24a0d446c063c9e9
