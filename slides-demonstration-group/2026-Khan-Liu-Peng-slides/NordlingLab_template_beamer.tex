@@ -1,0 +1,258 @@
+% !TEX program = xelatex
+% !TEX encoding = UTF-8 Unicode
+%
+% The Nordling Lab Presentation example implemented using Beamer by Jose Chang and Torbjšrn Nordling.
+% Copyright 2018 by Nordling Lab
+%
+% You are hereby granted the permission to freely copy and modify this file as you see fit, as long as
+% you acknowledges Nordling Lab.
+%
+% NOTE You need to use XeLaTeX to compile this file!
+
+% Use these lines for the default 4:3 aspect ratio in the presentation
+\documentclass{beamer}
+\mode<presentation>{
+	\usetheme{NordlingLab}
+}
+
+% Use these lines for a 16:9 aspect ratio no scaling version in the presentation
+%\documentclass[aspectratio=169]{beamer}
+%\mode<presentation>{
+%	\usetheme{NordlingLab169}
+%}
+
+% Load packages
+%\usepackage[utf8]{inputenc} %XeLaTeX expects UTF8 so not needed
+\usepackage[english]{babel}
+\let\latinencoding\relax
+\usepackage{xltxtra} %Needed to use Candara font
+\setsansfont{Candara}
+%\usepackage{fontspec} 
+%\setmainfont{Cambria} %Alternative font if Candara is not available
+\usepackage{graphicx} %Needed to insert images
+\graphicspath{./Figures/}
+\usepackage[yyyymmdd]{datetime} %Needed to get date on ISO format
+\renewcommand{\dateseparator}{--}
+
+\title[Nordling Lab template]{Official template of the Nordling Lab}
+%\subtitle{Add subtitle here}
+\author[T.~Nordling]{Ass.~Prof.~Torbj\"{o}rn~E.~M.~Nordling,~Ph.D.}
+\institute[NCKU]{Nordling Lab\\
+		Dept. of Mechanical Engineering\\
+		National Cheng Kung University\\
+		No. 1 University rd., Tainan 70101, Taiwan}
+\date{\today}
+\subject{Beamer presentation template}
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+\AtBeginSubsection[]{
+  \begin{frame}<beamer>{Outline} % frame is only shown in beamer mode
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command: 
+%\beamerdefaultoverlayspecification{<+->}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\setbeamertemplate{background}[NLTitle] %Use this background on title page
+\setbeamertemplate{footline}[NLTitle] %Use this empty footline on title page
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\setbeamertemplate{background}[NLCC] %Use this background to get CC license logo
+\setbeamertemplate{footline}[NLCC] %Use this footline to get CC license URL
+\begin{frame}<beamer>{Outline} % frame is only shown in beamer mode
+	\tableofcontents% You might wish to add the option [pausesections]
+\end{frame}
+
+% The reminder of this file is with the exception of the slide containing an image covering all of it 
+% and the Nordling Lab theme settings identical to the Beamer example conference-ornate-20min.en.tex
+% copyrighted by Till Tantau <tantau@users.sourceforge.net>
+% Till Tantau has granted the permission to freely copy and modify his file.
+
+% Structuring a talk is a difficult task and the following structure
+% may not be suitable. Here are some rules that apply for this
+% solution: 
+
+% - Exactly two or three sections (other than the summary).
+% - At *most* three subsections per section.
+% - Talk about 30s to 2min per frame. So there should be between about
+%   15 and 30 frames, all told.
+
+% - A conference audience is likely to know very little of what you
+%   are going to talk about. So *simplify*!
+% - In a 20min talk, getting the main ideas across is hard
+%   enough. Leave out details, even if it means being less precise than
+%   you think necessary.
+% - If you omit details that are vital to the proof/implementation,
+%   just say so once. Everybody will be happy with that.
+
+\section{Motivation}
+
+\subsection{The Basic Problem That We Studied}
+
+\setbeamertemplate{background}[NL] %Use this on slides containing material that is not under a creative commons license
+\setbeamertemplate{footline}[NL][Nordling Lab\\ \url{www.nordlinglab.org} (Last visited 2018-03-01)]%Use this on slides containing material that is not under a creative commons license
+
+\begin{frame}{Make Titles Informative. Be concise.}{Subtitles are optional.}
+  % - A title should summarize the slide in an understandable fashion
+  %   for anyone how does not follow everything on the slide itself.
+
+  \begin{itemize}
+  \item
+    Use \texttt{itemize} a lot.
+  \item
+    Use very short sentences or short phrases.
+  \end{itemize}
+\end{frame}
+
+% A slide containing an image covering all of it.
+\begin{frame}[plain] %Removes any footline
+    \begin{centering}%
+      \pgfimage[height=0.6\paperheight]{Figures/NordlingLablogo}%
+      \par%Trick to get the image centered
+    \end{centering}%
+\end{frame}
+\setbeamertemplate{background}[NLCC] %Use this background to get CC license logo
+\setbeamertemplate{footline}[NLCC] %Use this footline to get CC license URL
+
+\begin{frame}[t]
+\frametitle{Make Titles Informative.}
+  You can create overlays\dots
+  \begin{itemize}
+  \item using the \texttt{pause} command:
+    \begin{itemize}
+    \item
+      First item.
+      \pause
+    \item    
+      Second item.
+    \end{itemize}
+  \item
+    using overlay specifications:
+    \begin{itemize}
+    \item<3->
+      First item.
+    \item<4->
+      Second item.
+    \end{itemize}
+  \item
+    using the general \texttt{uncover} command:
+    \begin{itemize}
+      \uncover<5->{\item
+        First item.}
+      \uncover<6->{\item
+        Second item.}
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+\subsection{Previous Work}
+
+\begin{frame}{Make Titles Informative.}
+\end{frame}
+
+\begin{frame}{Make Titles Informative.}
+\end{frame}
+
+
+
+\section{Our Results/Contribution}
+
+\subsection{Main Results}
+
+\begin{frame}{Make Titles Informative.}
+\end{frame}
+
+\begin{frame}{Make Titles Informative.}
+\end{frame}
+
+\begin{frame}{Make Titles Informative.}
+\end{frame}
+
+
+\subsection{Basic Ideas for Proofs/Implementation}
+
+\begin{frame}{Make Titles Informative.}
+\end{frame}
+
+\begin{frame}{Make Titles Informative.}
+\end{frame}
+
+\begin{frame}{Make Titles Informative.}
+\end{frame}
+
+
+
+\section*{Summary}
+
+\begin{frame}{Summary}
+
+  % Keep the summary *very short*.
+  \begin{itemize}
+  \item
+    The \alert{first main message} of your talk in one or two lines.
+  \item
+    The \alert{second main message} of your talk in one or two lines.
+  \item
+    Perhaps a \alert{third message}, but not more than that.
+  \end{itemize}
+  
+  % The following outlook is optional.
+  \vskip0pt plus.5fill
+  \begin{itemize}
+  \item
+    Outlook
+    \begin{itemize}
+    \item
+      Something you haven't solved.
+    \item
+      Something else you haven't solved.
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+
+% All of the following is optional and typically not needed. 
+\appendix
+\section<presentation>*{\appendixname}
+\subsection<presentation>*{For Further Reading}
+
+\begin{frame}[allowframebreaks]
+  \frametitle<presentation>{For Further Reading}
+    
+  \begin{thebibliography}{10}
+    
+  \beamertemplatebookbibitems
+  % Start with overview books.
+
+  \bibitem{Author1990}
+    A.~Author.
+    \newblock {\em Handbook of Everything}.
+    \newblock Some Press, 1990.
+ 
+    
+  \beamertemplatearticlebibitems
+  % Followed by interesting articles. Keep the list short. 
+
+  \bibitem{Someone2000}
+    S.~Someone.
+    \newblock On this and that.
+    \newblock {\em Journal of This and That}, 2(1):50--100,
+    2000.
+  \end{thebibliography}
+\end{frame}
+
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+

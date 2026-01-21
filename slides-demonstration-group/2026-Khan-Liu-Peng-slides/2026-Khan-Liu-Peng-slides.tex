@@ -1,0 +1,130 @@
+\documentclass[aspectratio=169]{beamer}
+
+% As per README instructions for the Nordling Lab template
+\usetheme{NordlingLab169}
+
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{booktabs}
+
+% Title Slide Information
+\title{HRV Coach Pro v2.1}
+\subtitle{Autonomous Clinical Intelligence}
+\author{Khan Saquib , Liu TzuEn Andrew , Peng ToChen }
+\institute{ National Cheng Kung University}
+\date{\today}
+
+\begin{document}
+
+% Slide 1: Title Page
+\begin{frame}
+    \titlepage
+
+\end{frame}
+
+% Slide 2: Project Overview
+\begin{frame}{Project Overview}
+    \begin{itemize}
+        \item \textbf{HRV Coach Pro v2.1}: An autonomous agentic system for clinical HRV analysis.
+        \item \textbf{Core Function}: Converts raw noisy ECG $\rightarrow$ validated HRV metrics $\rightarrow$ clinical-style insights.
+        \item \textbf{Agentic Approach}: Utilizes a self-correcting workflow to adapt to signal quality.
+        \item \textbf{Goal}: Provide scalable, reliable HRV analysis without requiring expert manual intervention.
+    \end{itemize}
+\end{frame}
+
+% Slide 3: The Signal-to-Insight Gap
+\begin{frame}{The Signal-to-Insight Gap}
+    \begin{itemize}
+        \item \textbf{The Pipeline}: ECG $\rightarrow$ R-peaks detection $\rightarrow$ RR Intervals $\rightarrow$ HRV Metrics.
+        \item \textbf{The Challenges}: Noise, baseline drift, motion artifacts, and EMG interference often cause detection failure.
+        \item \textbf{The Risk}: Incorrect peak detection leads to invalid RR intervals and distorted HRV results.
+        \item \textbf{Interpretation}: Standard metrics (RMSSD, SDNN) are difficult for non-experts to understand without context.
+    \end{itemize}
+\end{frame}
+
+% Slide 4: Agentic Workflow & Architecture
+\begin{frame}{Agentic Workflow \& Architecture}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{block}{Sense $\rightarrow$ Decide $\rightarrow$ Act $\rightarrow$ Verify}
+                \begin{itemize}
+                    \item \textbf{Data Ingestion}: PhysioNet + CSV support.
+                    \item \textbf{Signal Processing}: Filtering, peak detection, and RR calculation.
+                    \item \textbf{Strategy Control}: Validation-driven feedback loop.
+                \end{itemize}
+            \end{block}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{block}{Hybrid Intelligence}
+                \begin{itemize}
+                    \item \textbf{Deterministic}: NeuroKit2 \& SciPy for signal processing.
+                    \item \textbf{Probabilistic}: DeepSeek V3.2 for metric interpretation.
+                    \item \textbf{Safety}: Separation of computation vs. interpretation.
+                \end{itemize}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% Slide 5: Strategy Pattern
+\begin{frame}{Strategy Pattern: Why Multiple Pipelines?}
+    \begin{itemize}
+        \item \textbf{Adaptability}: A single pipeline fails across different signal conditions.
+        \item \textbf{Strategy Library}: 
+            \begin{itemize}
+                \item \textbf{Strategy A}: Standard filtering for clean clinical-grade ECG.
+                \item \textbf{Strategy B}: Aggressive filtering for noisy wearable data.
+                \item \textbf{Strategy D}: Localized handling for 50 Hz power-line interference.
+            \end{itemize}
+        \item \textbf{Selection}: The agent tests strategies and selects the best one based on a validation grade.
+    \end{itemize}
+\end{frame}
+
+% Slide 6: Decision Loop & Validation
+\begin{frame}{Decision Loop \& Validation Logic}
+    \begin{enumerate}
+        \item \textbf{Sensing}: Checks for baseline wander, high-frequency noise, and sampling consistency.
+        \item \textbf{Decision}: Try Strategy A $\rightarrow$ Detect Peaks $\rightarrow$ Validate results.
+        \item \textbf{Backtracking}: If Grade is "C" or "Reject", switch to Strategy B or D.
+        \item \textbf{Criteria}: Physiological HR range, RR consistency, and outlier artifact rejection.
+        \item \textbf{Output}: Only accept results that pass physiological plausibility.
+    \end{enumerate}
+\end{frame}
+
+% Slide 7: Challenges & Results
+\begin{frame}{Challenges \& Results}
+    \begin{itemize}
+        \item \textbf{NumPy 2.0 Compatibility}: Fixed breaking changes in NeuroKit2 by implementing a compatibility shim for \texttt{trapezoid}.
+        \item \textbf{Local Data}: Resolved 50 Hz noise issues via Strategy D and timestamp-based sampling inference.
+        \item \textbf{Key Deliverables}:
+            \begin{itemize}
+                \item Clean ECG plots with labeled R-peaks.
+                \item Signal quality grading and HRV summary.
+                \item Downloadable PDF reports with LLM-generated interpretations.
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+% Slide 8: Future Work
+\begin{frame}{Future Work}
+    \begin{itemize}
+        \item Integration of local LLM models to enhance data privacy.
+        \item Real-time edge deployment for continuous health monitoring.
+        \item Expansion of the strategy library to support more diverse sensor types.
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Team Contribution}
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{|l|c|l|}
+        \hline
+        \textbf{Member} & \textbf{Contribution} & \textbf{Responsibilities} \\ \hline
+        \textbf{Khan} & 40\% & Code Development, Video Recording \\ \hline
+        \textbf{Liu} & 30\% & Documentation, Hosting Meeting \\ \hline
+        \textbf{Peng} & 30\% & Video Editing, Slide Creation \\ \hline
+    \end{tabular}
+\end{frame}
+
+\end{document}
