@@ -1,6 +1,9 @@
 # CASE BRIEF: THE BURNOUT SHIELD
 **Subject:** An Agentic AI-Based System for Preventative Human Capital Maintenance
 
+**Author:** 2026-Peng-ToChen
+**License:** CC-BY-4.0  
+
 ### 1. Title
 **The Burnout Shield: An Agentic AI-Based System for Preventative Human Capital Maintenance**
 
